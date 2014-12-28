@@ -48,6 +48,7 @@ public class MainWindow {
         imageLabel.setIcon(new ImageIcon("res/cat.gif"));
         selection = buttonGroup.getSelection();
         list1.addListSelectionListener(listSelectionListener);
+
     }
 
     ListSelectionListener listSelectionListener = new ListSelectionListener() {
@@ -71,6 +72,7 @@ public class MainWindow {
         frame.setContentPane(new MainWindow().MainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
+        frame.setTitle("Image Manipulator");
         frame.setVisible(true);
 
     }
