@@ -3,34 +3,67 @@ import com.jgoodies.forms.layout.FormLayout;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Created by natalia on 12/25/14.
  */
 public class MainWindow {
+    private ArrayList<File> allFiles = new ArrayList<File>();
     private JPanel MainPanel;
     private JList list1;
     private JScrollPane listPanel;
-    private JButton upload;
-    private JButton przetwórzButton;
-    private JRadioButton radioButton1;
-    private JRadioButton radioButton2;
+    private JButton uploadButton;
+    private JButton submitButton;
+    private JRadioButton greyscale;
+    private JRadioButton sepia;
+    private JRadioButton lighter;
+    private JLabel imageLabel;
+    private JButton clearButton;
     private DefaultListModel fileListModel;
+    private ButtonModel selection;
 
     public MainWindow() {
-        upload.addActionListener(new clickUploadListener());
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add(greyscale);
+        buttonGroup.add(lighter);
+        greyscale.setActionCommand("Greyscale");
+        greyscale.setSelected(true);
+        lighter.setActionCommand("Lighter");
+        sepia.setActionCommand("Sepia");
+        buttonGroup.add(sepia);
+        uploadButton.addActionListener(new clickUploadListener());
+        clearButton.addActionListener(new clickClearListener());
+        submitButton.addActionListener(new ClickSubmitListener(allFiles, buttonGroup));
         fileListModel = new DefaultListModel();
         list1.setModel(fileListModel);
-        ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add(radioButton1);
-        buttonGroup.add(radioButton2);
+        imageLabel.setIcon(new ImageIcon("res/cat.gif"));
+        selection = buttonGroup.getSelection();
+        list1.addListSelectionListener(listSelectionListener);
     }
+
+    ListSelectionListener listSelectionListener = new ListSelectionListener() {
+        public void valueChanged(ListSelectionEvent listSelectionEvent) {
+
+            if (list1.isSelectionEmpty() == false) {
+                String path = list1.getSelectedValue().toString();
+                //System.out.println(path);
+                ImageIcon icon = new ImageIcon(path);
+                Image img = icon.getImage();
+                Image newimg = img.getScaledInstance(150, 100, Image.SCALE_SMOOTH);
+                icon = new ImageIcon(newimg);
+                imageLabel.setIcon(icon);
+            }
+        }
+    };
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("MainWindow");
@@ -58,28 +91,37 @@ public class MainWindow {
      */
     private void $$$setupUI$$$() {
         MainPanel = new JPanel();
-        MainPanel.setLayout(new FormLayout("fill:293px:noGrow,left:4dlu:noGrow,fill:159px:noGrow", "center:max(d;4px):noGrow,top:4dlu:noGrow,top:227dlu:noGrow,center:64px:noGrow"));
+        MainPanel.setLayout(new FormLayout("fill:293px:noGrow,left:4dlu:noGrow,fill:199px:noGrow", "center:max(d;4px):noGrow,top:4dlu:noGrow,top:227dlu:noGrow,center:64px:noGrow"));
         listPanel = new JScrollPane();
         CellConstraints cc = new CellConstraints();
         MainPanel.add(listPanel, new CellConstraints(1, 3, 1, 1, CellConstraints.DEFAULT, CellConstraints.FILL, new Insets(5, 5, 5, 5)));
         list1 = new JList();
         list1.putClientProperty("List.isFileList", Boolean.TRUE);
         listPanel.setViewportView(list1);
-        upload = new JButton();
-        upload.setText("Wgraj zdjęcia");
-        MainPanel.add(upload, cc.xy(1, 1));
-        przetwórzButton = new JButton();
-        przetwórzButton.setText("Button");
-        MainPanel.add(przetwórzButton, cc.xy(3, 4));
+        uploadButton = new JButton();
+        uploadButton.setText("Wgraj zdjęcia");
+        MainPanel.add(uploadButton, cc.xy(1, 1));
+        submitButton = new JButton();
+        submitButton.setText("Przetwórz");
+        MainPanel.add(submitButton, new CellConstraints(3, 4, 1, 1, CellConstraints.DEFAULT, CellConstraints.DEFAULT, new Insets(0, 30, 0, 30)));
         final JPanel panel1 = new JPanel();
-        panel1.setLayout(new FormLayout("fill:d:grow", "center:d:grow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow"));
+        panel1.setLayout(new FormLayout("fill:195px:grow", "center:d:grow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow"));
         MainPanel.add(panel1, cc.xy(3, 3));
-        radioButton1 = new JRadioButton();
-        radioButton1.setText("RadioButton");
-        panel1.add(radioButton1, cc.xy(1, 3));
-        radioButton2 = new JRadioButton();
-        radioButton2.setText("RadioButton");
-        panel1.add(radioButton2, cc.xy(1, 5));
+        greyscale = new JRadioButton();
+        greyscale.setText("Czarno-białe");
+        panel1.add(greyscale, cc.xy(1, 5));
+        sepia = new JRadioButton();
+        sepia.setText("Sepia");
+        panel1.add(sepia, cc.xy(1, 7));
+        lighter = new JRadioButton();
+        lighter.setText("Rozjaśnij");
+        panel1.add(lighter, cc.xy(1, 9));
+        imageLabel = new JLabel();
+        imageLabel.setText("");
+        panel1.add(imageLabel, cc.xy(1, 3, CellConstraints.CENTER, CellConstraints.DEFAULT));
+        clearButton = new JButton();
+        clearButton.setText("Wyczyść");
+        MainPanel.add(clearButton, new CellConstraints(1, 4, 1, 1, CellConstraints.DEFAULT, CellConstraints.DEFAULT, new Insets(0, 30, 0, 30)));
     }
 
     /**
@@ -99,7 +141,25 @@ public class MainWindow {
             chooser.setMultiSelectionEnabled(true);
             chooser.showOpenDialog(null);
             File[] files = chooser.getSelectedFiles();
-            for (File file : files) fileListModel.addElement(file);
+            for (File file : files) {
+                fileListModel.addElement(file);
+                allFiles.add(file);
+            }
+        }
+    }
+
+
+    public class clickClearListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+
+            imageLabel.setIcon(new ImageIcon("res/cat.gif"));
+            list1.clearSelection();
+
+            allFiles.clear();
+            fileListModel.removeAllElements();
+
+
         }
     }
 }
+

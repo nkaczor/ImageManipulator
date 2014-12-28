@@ -7,9 +7,9 @@
     <rowspec value="center:64px:noGrow"/>
     <colspec value="fill:293px:noGrow"/>
     <colspec value="left:4dlu:noGrow"/>
-    <colspec value="fill:159px:noGrow"/>
+    <colspec value="fill:199px:noGrow"/>
     <constraints>
-      <xy x="20" y="20" width="500" height="471"/>
+      <xy x="20" y="20" width="512" height="471"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -31,7 +31,7 @@
           </component>
         </children>
       </scrollpane>
-      <component id="7c2d7" class="javax.swing.JButton" binding="upload">
+      <component id="7c2d7" class="javax.swing.JButton" binding="uploadButton">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <forms/>
@@ -40,10 +40,10 @@
           <text value="Wgraj zdjęcia"/>
         </properties>
       </component>
-      <component id="3ec5f" class="javax.swing.JButton" binding="przetwórzButton" default-binding="true">
+      <component id="3ec5f" class="javax.swing.JButton" binding="submitButton">
         <constraints>
           <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-          <forms/>
+          <forms top="0" left="30" bottom="0" right="30"/>
         </constraints>
         <properties>
           <text value="Przetwórz"/>
@@ -55,7 +55,11 @@
         <rowspec value="center:max(d;4px):noGrow"/>
         <rowspec value="top:4dlu:noGrow"/>
         <rowspec value="center:max(d;4px):noGrow"/>
-        <colspec value="fill:d:grow"/>
+        <rowspec value="top:4dlu:noGrow"/>
+        <rowspec value="center:max(d;4px):noGrow"/>
+        <rowspec value="top:4dlu:noGrow"/>
+        <rowspec value="center:max(d;4px):noGrow"/>
+        <colspec value="fill:195px:grow"/>
         <constraints>
           <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
           <forms/>
@@ -63,26 +67,53 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="40c5b" class="javax.swing.JRadioButton" binding="radioButton1" default-binding="true">
+          <component id="40c5b" class="javax.swing.JRadioButton" binding="greyscale">
             <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
               <forms/>
             </constraints>
             <properties>
               <text value="Czarno-białe"/>
             </properties>
           </component>
-          <component id="10c3e" class="javax.swing.JRadioButton" binding="radioButton2" default-binding="true">
+          <component id="10c3e" class="javax.swing.JRadioButton" binding="sepia">
             <constraints>
-              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
               <forms/>
             </constraints>
             <properties>
               <text value="Sepia"/>
             </properties>
           </component>
+          <component id="b3d93" class="javax.swing.JRadioButton" binding="lighter">
+            <constraints>
+              <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
+            </constraints>
+            <properties>
+              <text value="Rozjaśnij"/>
+            </properties>
+          </component>
+          <component id="a5756" class="javax.swing.JLabel" binding="imageLabel">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <forms defaultalign-horz="false"/>
+            </constraints>
+            <properties>
+              <text value=""/>
+            </properties>
+          </component>
         </children>
       </grid>
+      <component id="a64a8" class="javax.swing.JButton" binding="clearButton">
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms top="0" left="30" bottom="0" right="30"/>
+        </constraints>
+        <properties>
+          <text value="Wyczyść"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>
